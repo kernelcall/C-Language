@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct{
+        char _arqName[12];
+        char escrever[40];
+        char leitura[10];
+        char *result;
+        FILE *arq;
+    }_leituraArq;
+void _lerArquivo(char arquivo[12]);
+int main(void)
+{
+    _leituraArq escrever;
+    /*
+    char leitura[10];
+    char *result;
+    FILE *arq;
+    arquivos escrever;
+    */
+    printf("Nome do arquivo: ");
+    fgets(escrever._arqName, 12, stdin);
+    setbuf(stdin, NULL);
+    escrever.arq = fopen(escrever._arqName, "w");
+    if(escrever.arq)
+    {
+        printf("Seu texto: ");
+        fgets(escrever.escrever, 40, stdin);
+        fprintf(escrever.arq, escrever.escrever);
+    }
+    fclose(escrever.arq);
+    _lerArquivo(escrever._arqName);
+    return 0;
+}
+void _lerArquivo(char arquivo[12])
+{
+    _leituraArq _leitura;
+    _leitura.arq = fopen(arquivo, "r");
+    if(_leitura.arq)
+    {
+        while(!feof(_leitura.arq))
+        {
+            _leitura.result = fgets(_leitura.leitura, 40, _leitura.arq);
+            if(_leitura.result)
+            {
+                printf("%s", _leitura.leitura);
+            }
+        }
+    }
+    else{
+        printf("Unknown File\n");
+    }
+
+    fclose(_leitura.arq);
+}
