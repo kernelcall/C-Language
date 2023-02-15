@@ -1,0 +1,175 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <netdb.h>
+
+//FreeSpace
+typedef struct{
+    char cpf[16];
+    char senha[7];
+    char _dstAccount[10];
+}agencia;
+
+//Prototipos de funcoes
+void _acoes();
+void _sacar();
+void _depositar();
+void _transferir();
+
+//Principal
+int main(void)
+{
+    //Definições de variáveis
+    agencia conta;
+
+    //Programa
+    printf("  BancoTesting\n");
+    printf("CPF: ");
+    fgets(conta.cpf, 15, stdin);
+
+    setbuf(stdin, NULL);
+    printf("Senha: ");
+    fgets(conta.senha, 7, stdin);
+    setbuf(stdin, NULL);
+
+    _acoes();
+    return 0;
+}
+void _acoes()
+{
+    setbuf(stdin, NULL);
+
+    enum acoes{
+        sacar,
+        depositar,
+        transferir,
+    };
+    enum acoes acao;
+
+    printf("[1] - Sacar\n");
+    printf("[2] - Depoisitar\n");
+    printf("[3] - Transferencia\n");
+    printf("Opcao: ");
+    scanf("%d", &acao);
+    if(acao == 1)
+    {
+       _sacar();
+    }
+    else if(acao == 2)
+    {
+        _depositar();
+    }
+    else if(acao == 3)
+    {
+        _transferir();
+    }
+    else{
+        printf("A opcao esta invalida\n");
+    }
+}
+void _sacar()
+{
+    int meusocket;
+    int conecta;
+    int cont = 0;
+    int saque = 0;
+    srand(time(NULL));
+    for(int i = 0; i < 1; i++)
+    {
+        cont = rand() % 2000;
+    }
+    printf("Saldo na conta: %d\n", cont);
+    printf("Quanto deseja sacar: ");
+    scanf("%d", &saque);
+    printf("Realizando operação\n");
+    sleep(2);
+    struct sockaddr_in alvo;
+    meusocket = socket(AF_INET, SOCK_STREAM, 0);
+    alvo.sin_family = AF_INET;
+    alvo.sin_port = htons(80);
+    alvo.sin_addr.s_addr = inet_addr("192.168.254.2");
+
+    conecta = connect(meusocket, (struct sockaddr *)&alvo, sizeof(alvo));
+
+    if(conecta == 0)
+    {
+        printf("Operacao realizada\n");
+    }
+    else{
+        printf("A operacao falhou, tente novamente mais tarde.\n");
+    }
+    cont = cont - saque;
+    printf("Saldo na conta: %d\n", cont);
+}
+void _depositar()
+{
+    int meusocket;
+    int conecta;
+    int cont = 0;
+    int deposito = 0;
+    srand(time(NULL));
+    for(int i = 0; i < 1; i++)
+    {
+        cont = rand() % 2000;
+    }
+    printf("Saldo na conta: %d\n", cont);
+    printf("Quanto deseja depositar: ");
+    scanf("%d", &deposito);
+    printf("Realizando operação\n");
+    sleep(2);
+    struct sockaddr_in alvo;
+    meusocket = socket(AF_INET, SOCK_STREAM, 0);
+    alvo.sin_family = AF_INET;
+    alvo.sin_port = htons(80);
+    alvo.sin_addr.s_addr = inet_addr("192.168.254.2");
+
+    conecta = connect(meusocket, (struct sockaddr *)&alvo, sizeof(alvo));
+
+    if(conecta == 0)
+    {
+        printf("Operacao realizada\n");
+    }
+    else{
+        printf("A operacao falhou, tente novamente mais tarde.\n");
+    }
+    cont = cont + deposito;
+    printf("Saldo na conta: %d\n", cont);
+}
+void _transferir()
+{
+    agencia transfer;
+    int meusocket;
+    int conecta;
+    int cont = 0;
+    int transferir = 0;
+    srand(time(NULL));
+    for(int i = 0; i < 1; i++)
+    {
+        cont = rand() % 2000;
+    }
+    printf("Saldo na conta: %d\n", cont);
+    printf("Quanto deseja depositar: ");
+    scanf("%d", &transferir);
+    setbuf(stdin, NULL);
+    printf("Conta destino: ");
+    fgets(transfer._dstAccount, 10, stdin);
+    setbuf(stdin, NULL);
+    printf("Realizando operação\n");
+    sleep(2);
+    struct sockaddr_in alvo;
+    meusocket = socket(AF_INET, SOCK_STREAM, 0);
+    alvo.sin_family = AF_INET;
+    alvo.sin_port = htons(80);
+    alvo.sin_addr.s_addr = inet_addr("192.168.254.2");
+
+    conecta = connect(meusocket, (struct sockaddr *)&alvo, sizeof(alvo));
+
+    if(conecta == 0)
+    {
+        printf("Operacao realizada\n");
+    }
+    else{
+        printf("A operacao falhou, tente novamente mais tarde.\n");
+    }
+    cont = cont - transferir;
+    printf("Saldo na conta: %d\n", cont);
+}
